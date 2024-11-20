@@ -1,7 +1,10 @@
 import Msg from "../models/Msg.js";
 
 export const getAllMessages = (req, res) => {
-  Msg.findAll({ order: [["id", "DESC"]] })
+  Msg.findAll({
+    where: { discussion_id: req.params.id },
+    attributes: { exclude: ["createdAt", "id", "updatedAt", "discussion_id"] },
+  })
     .then((messages) => res.status(200).json(messages))
     .catch((err) => res.status(400).json(err));
 };
